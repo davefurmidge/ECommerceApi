@@ -2,6 +2,11 @@ name: Deploy E-commerce API
 
 on:
   workflow_dispatch:
+  push:
+      branches:    
+          - main
+      paths:   
+          - "EcommerceApi.App/**"
 
 env:
   AZURE_WEBAPP_NAME: ecommerce-api-furmidge-app  # set this to your application's name
@@ -32,8 +37,6 @@ jobs:
       # Run Restore
       - name: dotnet Restore
         run: |
-            pwd    
-            ls -al
             dotnet restore
         working-directory: ${{ env.WORKING_DIRECTORY}}
 
@@ -44,9 +47,7 @@ jobs:
       - name: dotnet publish
         run: |
             dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-            pwd
-            ls -al
-            tree .
+       
         working-directory: ${{ env.WORKING_DIRECTORY}}
 
       - name: Add Runner IP to SQL Firewall
