@@ -5,7 +5,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: ecommerce-api-furmidge-app  # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: ECommerceApi.App/publish
+  AZURE_WEBAPP_PACKAGE_PATH: ./publish
   AZURE_CONNECTION_STRING: ""
   RESOURCE_GROUP: rg-ecommerce-api-furmidge-dev
   SQLSERVER_NAME: ecommerce-api-furmidge-dev
