@@ -1,10 +1,6 @@
 ﻿using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using EcommerceApi.Infra;
-using Moq;
 using Pulumi.AzureNative.Resources;
-using Pulumi.AzureNative.Storage;
 using Pulumi.Testing;
 using Shouldly;
 using Xunit;

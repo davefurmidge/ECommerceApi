@@ -75,3 +75,4 @@ C:\Pulumi\EcommerceApi\EcommerceApi.App\obj\Debug\net7.0\refint\EcommerceApi.App
 C:\Pulumi\EcommerceApi\EcommerceApi.App\obj\Debug\net7.0\EcommerceApi.App.pdb
 C:\Pulumi\EcommerceApi\EcommerceApi.App\obj\Debug\net7.0\EcommerceApi.App.genruntimeconfig.cache
 C:\Pulumi\EcommerceApi\EcommerceApi.App\obj\Debug\net7.0\ref\EcommerceApi.App.dll
+C:\Pulumi\EcommerceApi\EcommerceApi.App\obj\Debug\net7.0\EcommerceApi.App.sourcelink.json

@@ -1,9 +1,5 @@
 ﻿using Pulumi;
-using Pulumi.AzureNative.Logic.V20160601;
 using Pulumi.AzureNative.Resources;
-using Pulumi.AzureNative.Web;
-using Pulumi.AzureNative.Web.Inputs;
-using System.Collections.Generic;
 
 namespace EcommerceApi.Infra.components
 {

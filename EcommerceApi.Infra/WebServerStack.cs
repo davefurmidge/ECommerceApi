@@ -1,11 +1,6 @@
 ﻿using Pulumi;
 using EcommerceApi.Infra.components;
 using Github = Pulumi.Github;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EcommerceApi.Infra
 {

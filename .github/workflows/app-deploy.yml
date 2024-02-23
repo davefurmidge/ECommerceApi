@@ -10,7 +10,7 @@ env:
   RESOURCE_GROUP: rg-ecommerce-api-furmidge-dev
   SQLSERVER_NAME: ecommerce-api-furmidge-dev
   DOTNET_VERSION: '7'           # set this to the dot net version to use
-  WORKING_DIRECTORY: .
+  WORKING_DIRECTORY: EcommerceApi.App
 
 jobs:
   build:
