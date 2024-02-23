@@ -32,12 +32,15 @@ jobs:
       # Run Restore
       - name: dotnet Restore
         run: dotnet restore
+        working-directory: ${{ env.WORKING_DIRECTORY}}
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
+        working-directory: ${{ env.WORKING_DIRECTORY}}
        
       - name: dotnet publish
         run: dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        working-directory: ${{ env.WORKING_DIRECTORY}}
 
       - name: Add Runner IP to SQL Firewall
         run: |
@@ -56,7 +59,7 @@ jobs:
         run: |
           dotnet tool install --global dotnet-ef
           dotnet tool restore
-          dotnet ef database update -p '${{ env.WORKING_DIRECTORY}}/ECommerceApi/ECommerceApi.csproj' --connection '${{ secrets.AZURE_SQL_CONNECTIONSTRING}}'
+          dotnet ef database update -p '${{ env.WORKING_DIRECTORY}}/EcommerceApi.App.csproj' --connection '${{ secrets.AZURE_SQL_CONNECTIONSTRING}}'
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using Azure Credentials'
         uses: azure/webapps-deploy@v2
