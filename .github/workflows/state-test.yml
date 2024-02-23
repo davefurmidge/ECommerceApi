@@ -1,8 +1,9 @@
 name: Pulumi State Test
 on:
-  push:
-    branches:
-        - main
+  workflow_dispatch:  
+#   push:
+#     branches:
+#         - main
 env:
   DOTNET_VERSION: '7'           # set this to the dot net version to use
 
@@ -37,4 +38,4 @@ jobs:
           ARM_CLIENT_ID: ${{ secrets.SP_CLIENT_ID }}   
           ARM_CLIENT_SECRET: ${{ secrets.SP_PASSWORD}}
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: bd5c6713-7399-4b31-be79-78f2d078e543
+          ARM_TENANT_ID: b41b72d0-4e9f-4c26-8a69-f949f367c91d
