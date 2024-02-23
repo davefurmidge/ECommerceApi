@@ -1,0 +1,4 @@
+config:
+  azure-native:location: northeurope
+  azure-native:applicationName: ecommerce-api-furmidge
+  azure-native:appenvironment: dev
