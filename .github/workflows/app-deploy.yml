@@ -42,7 +42,11 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY}}
        
       - name: dotnet publish
-        run: dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        run: |
+            dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+            pwd
+            ls -al
+            tree .
         working-directory: ${{ env.WORKING_DIRECTORY}}
 
       - name: Add Runner IP to SQL Firewall
