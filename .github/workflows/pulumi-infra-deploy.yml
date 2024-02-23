@@ -5,6 +5,8 @@ on:
         - main
 env:
   DOTNET_VERSION: '7'           # set this to the dot net version to use
+  INFRA-DIR: EcommerceApi.Infra
+  INFRA-TEST-DIR: EcommerceApi.InfraTests
 
 jobs:
   build-and-test:
@@ -18,10 +20,13 @@ jobs:
             dotnet-version: ${{ env.DOTNET_VERSION }}     
       - name: Install dependencies
         run: dotnet restore
+        working-directory: ${{ env.INFRA-DIR}}
       - name: Build
         run: dotnet build --configuration Release --no-restore
+        working-directory: ${{ env.INFRA-DIR}}
       - name: Test
-        run: dotnet test --no-restore --verbosity normal       
+        run: dotnet test --no-restore --verbosity normal      
+        working-directory: ${{ env.INFRA-TEST-DIR}} 
   Deploy:
     name: Deploy Infra
     needs: [build-and-test]
