@@ -1,5 +1,6 @@
 ﻿using Pulumi;
 using EcommerceApi.Infra.components;
+using Github = Pulumi.Github;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,14 @@ namespace EcommerceApi.Infra
                 DatabaseUsername = databaseComponent.DatabaseUsername,
                 DatabasePassword = databaseComponent.DatabasePassword,
                 DatabaseConnstr = databaseComponent.ConnectionString,
+            });
+
+            var azureConnstrSecret = new Github.ActionsSecret("azure_connstr", new Github.ActionsSecretArgs
+            {
+                Repository = "ECommerceApi",
+                SecretName = "AZURE_SQL_CONNECTIONSTRING",
+                PlaintextValue = databaseComponent.ConnectionString,
+
             });
             // Set the output for the App Service DefaultHostName
 
