@@ -31,7 +31,10 @@ jobs:
       
       # Run Restore
       - name: dotnet Restore
-        run: dotnet restore
+        run: |
+            pwd    
+            ls -al
+            dotnet restore
         working-directory: ${{ env.WORKING_DIRECTORY}}
 
       - name: Build
