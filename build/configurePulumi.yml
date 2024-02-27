@@ -1,0 +1,22 @@
+parameters:
+  - name: pulumiCwd
+    type: string
+    default: '$(System.ArtifactsDirectory)/pulumi'
+  - name: pulumiStack
+    type: string
+  - name: pulumiPlugin
+    type: string
+    default: ''
+
+steps:
+  - task: Pulumi@1
+    displayName: Pulumi config
+    inputs:
+      command: config
+      cwd: ${{ parameters.pulumiCwd }}
+      stack: ${{ parameters.pulumiStack }}
+  - ${{ if ne(parameters.pulumiPlugin,'') }}:
+    - pwsh: |
+          pulumi plugin install resource ${{ parameters.pulumiPlugin }} 
+      displayName: Pulumi plugin install ${{ parameters.pulumiPlugin }}
+      condition: succeededOrFailed()
