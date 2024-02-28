@@ -2,11 +2,11 @@ name: Deploy E-commerce API
 
 on:
   workflow_dispatch:
-  push:
-      branches:    
-          - main
-      paths:   
-          - "EcommerceApi.App/**"
+#   push:
+#       branches:    
+#           - main
+#       paths:   
+#           - "EcommerceApi.App/**"
 
 env:
   AZURE_WEBAPP_NAME: ecommerce-api-furmidge-app  # set this to your application's name

@@ -1,0 +1,116 @@
+name: AzDO-PulumiExample-Pipeline
+
+trigger:
+  - main
+
+pr:
+- main
+
+variables:
+  - group: azure-vg
+  - name: pulumiProject
+    value: 'EcommerceApi.Infra/EcommerceApi.Infra.csproj'
+  - name: pulumiTestProject
+    value: 'EcommerceApi.InfraTests/EcommerceApi.InfraTests.csproj'
+  - name: pulumiStack 
+    value: 'DexterPOSH/WebServerStack/dev'
+  - name: envName
+    value: 'dev'
+  - name: azServiceConnection
+    value: 'AzureSC'
+  - name: vmImage
+    value: 'ubuntu-latest'
+
+stages:
+  - stage: Build_Test_Release
+    displayName: Build, Test & Release
+    jobs:
+    - job: BuildTestReleaseJob
+      pool:
+        vmImage: $(vmImage)
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: dotnet restore
+        inputs:
+          command: 'restore'
+          projects: $(pulumiProject)
+          feedsToUse: 'select'
+      - task: DotNetCoreCLI@2
+        displayName: dotnet build
+        inputs:
+          command: 'build'
+          projects: $(pulumiProject)
+          arguments: '--nologo -c Release'
+      - task: DotNetCoreCLI@2
+        displayName: dotnet test
+        inputs:
+          command: 'test'
+          projects: $(pulumiTestProject)
+          arguments: '--nologo -c Release'
+      - task: DotNetCoreCLI@2
+        displayName: dotnet publish
+        inputs:
+          command: publish
+          publishWebProjects: True
+          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+          zipAfterPublish: True
+      # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+          artifactName: 'pulumi'
+  - stage: Preview
+    jobs:
+    - job: PreviewJob
+      displayName: Preview Job
+      pool:
+        vmImage: $(vmImage)
+      steps:
+      - template: ./build/downloadArtifact.yml
+        parameters:
+          downloadPath: $(System.ArtifactsDirectory)
+          dropName: 'pulumi'
+      - template: ./build/configurePulumi.yml
+        parameters:
+          pulumiCwd: '$(System.ArtifactsDirectory)/pulumi'
+          pulumiStack: $(pulumiStack)
+          pulumiPlugin: 'azure v3.12.1'
+      - task: Pulumi@1
+        displayName: pulumi preview
+        inputs:
+          cwd: '$(System.ArtifactsDirectory)/pulumi'
+          azureSubscription: $(azServiceConnection)
+          command: 'preview'
+          stack: $(pulumiStack)
+          createStack: true
+  - stage: Deploy
+    jobs:
+    - deployment: DeployJob
+      displayName: Deploy Job
+      pool:
+        vmImage: $(vmImage)
+      # creates an equivalent pulumi stack AzDO environment if it doesn't exist
+      environment: $(envName)
+      strategy:
+        # default deployment strategy
+        runOnce:
+          deploy:
+            steps:
+              - template: ./build/downloadArtifact.yml
+                parameters:
+                  downloadPath: $(System.ArtifactsDirectory)
+                  dropName: 'pulumi'
+              - template: ./build/configurePulumi.yml
+                parameters:
+                  pulumiCwd: '$(System.ArtifactsDirectory)/pulumi'
+                  pulumiStack: $(pulumiStack)
+                  pulumiPlugin: 'azure v3.12.1'
+              - task: Pulumi@1
+                displayName: pulumi update
+                condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+                inputs:
+                  cwd: '$(System.ArtifactsDirectory)/pulumi'
+                  azureSubscription: $(azServiceConnection)
+                  command: 'up'
+                  stack: $(pulumiStack)
+                  args: '--yes'
