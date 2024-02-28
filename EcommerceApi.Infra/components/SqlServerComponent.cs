@@ -60,6 +60,7 @@ namespace EcommerceApi.Infra.components
                 Version = "12.0",
                 AdministratorLogin = args.AdministratorLogin,
                 AdministratorLoginPassword = password.Result,
+           
                 Tags =
             {
                 { "environment", args.Environment },
@@ -79,9 +80,11 @@ namespace EcommerceApi.Infra.components
                 Location = args.Location,
                 Sku = new SkuArgs
                 {
-                    Capacity = 2,
-                    Family = "Gen5",
-                    Name = "BC",
+                    // Capacity = 2,
+                    // Family = "Gen5",
+                    // Name = "BC",
+                    Name = "S3",
+                    Tier = "Standard"
                 },
             }, new CustomResourceOptions
             {
