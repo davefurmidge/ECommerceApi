@@ -25,6 +25,7 @@ jobs:
           stack-name: dev # When using an individual account, only use stack-name.
           work-dir: EcommerceApi.Infra
           cloud-url: azblob://state
+          secrets-provider: azurekeyvault://${{ secrets.BACKEND_KV }}.vault.azure.net/keys/encryptionState
           github-token: ${{ secrets.SAML_GITHUB_TOKEN }}
           upsert: true
         env:
@@ -37,3 +38,4 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.SP_PASSWORD}}
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+          AZURE_KEYVAULT_AUTH_VIA_CLI: true
