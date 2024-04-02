@@ -9,11 +9,11 @@ on:
 #           - "EcommerceApi.App/**"
 
 env:
-  AZURE_WEBAPP_NAME: ecommerce-api-furmidge-app  # set this to your application's name
+  AZURE_WEBAPP_NAME: ecommerce-api-furmidge-dev-app  # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: ./publish
   AZURE_CONNECTION_STRING: ""
   RESOURCE_GROUP: rg-ecommerce-api-furmidge-dev
-  SQLSERVER_NAME: ecommerce-api-furmidge-dev
+  SQLSERVER_NAME: ecommerce-api-furmidge-ddev
   DOTNET_VERSION: '7'           # set this to the dot net version to use
   WORKING_DIRECTORY: ./EcommerceApi.App
 
